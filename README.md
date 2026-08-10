@@ -1,8 +1,10 @@
 # Physical AI Data Germany
 
-**Partner data room · Working title · Münster, Germany**
+**Public partner data room · Working title · Münster, Germany**
 
 Physical AI Data Germany is an early-stage B2B venture building **task-specific, calibrated and legally documented training data for robotics and Physical AI**.
+
+> **Deutsch:** [Partnerbrief und Kooperationsübersicht](PARTNER_BRIEF_DE.md)
 
 We do not sell generic video hours. We design and operate data campaigns for clearly defined robot tasks, including:
 
@@ -35,6 +37,7 @@ Flexible industrial manipulation: cables, connectors, hoses, clips, deformable c
 
 ## Documents
 
+- [German partner brief](PARTNER_BRIEF_DE.md)
 - [Executive business-plan summary](BUSINESS_PLAN_EXECUTIVE_SUMMARY.md)
 - [10-day feasibility sprint](PILOT_OFFER.md)
 - [Technical collaboration profile](TECHNICAL_COLLABORATION.md)
@@ -44,6 +47,10 @@ Flexible industrial manipulation: cables, connectors, hoses, clips, deformable c
 
 No continuous employee surveillance. Data collection is designed around voluntary, time-limited demonstration sessions, data minimization, project-specific rights and measurable delivery quality.
 
+## Detailed documents
+
+The full business plan, editable financial model, implementation tracker and contractual working documents are shared selectively with qualified financing, research and cooperation partners after an initial discussion. They are not published without context.
+
 ---
 
 **Founder:** Aaron Wißmann  
@@ -51,4 +58,4 @@ No continuous employee surveillance. Data collection is designed around voluntar
 **Status:** In validation / company formation preparation  
 **Contact:** aaronwiss62@gmail.com
 
-> The repository is a temporary public partner brief. Detailed financial assumptions, personal documents and full contractual materials are only shared with qualified parties after a first discussion.
+> This repository is a temporary public partner brief. It presents the current thesis honestly and does not claim a completed platform, secured financing or validated model uplift.
