@@ -1,0 +1,164 @@
+name: Test demonstrator end to end
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "demo/**"
+      - ".github/workflows/demo-integration-ci.yml"
+  pull_request:
+    paths:
+      - "demo/**"
+      - ".github/workflows/demo-integration-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: demo/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r demo/requirements.txt
+
+      - name: Compile all demonstrator utilities
+        run: |
+          python -m py_compile demo/list_cameras.py
+          python -m py_compile demo/record_multiview.py
+          python -m py_compile demo/scaffold_episode.py
+          python -m py_compile demo/validate_episode.py
+
+      - name: Generate synthetic two-camera recorder output
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import cv2
+          import numpy as np
+
+          episode_dir = Path("/tmp/physical-ai-episode")
+          episode_dir.mkdir(parents=True, exist_ok=True)
+          frame_count = 12
+          fps = 12.0
+          width, height = 320, 240
+          base_ns = 1_000_000_000
+          interval_ns = int(1e9 / fps)
+
+          streams = []
+          for camera_index in range(2):
+              camera_id = f"camera_{camera_index}"
+              video_path = episode_dir / f"{camera_id}.mp4"
+              timestamp_path = episode_dir / f"{camera_id}_timestamps.jsonl"
+              writer = cv2.VideoWriter(
+                  str(video_path),
+                  cv2.VideoWriter_fourcc(*"mp4v"),
+                  fps,
+                  (width, height),
+              )
+              if not writer.isOpened():
+                  raise SystemExit(f"Could not create {video_path}")
+
+              start_ns = base_ns + camera_index * 4_000_000
+              with timestamp_path.open("w", encoding="utf-8") as timestamps:
+                  for frame_index in range(frame_count):
+                      frame = np.zeros((height, width, 3), dtype=np.uint8)
+                      frame[:, :, camera_index] = 80 + frame_index * 8
+                      cv2.putText(
+                          frame,
+                          f"{camera_id} frame {frame_index}",
+                          (20, 120),
+                          cv2.FONT_HERSHEY_SIMPLEX,
+                          0.55,
+                          (255, 255, 255),
+                          1,
+                          cv2.LINE_AA,
+                      )
+                      writer.write(frame)
+                      timestamps.write(json.dumps({
+                          "frame_index": frame_index,
+                          "timestamp_ns": start_ns + frame_index * interval_ns,
+                          "clock": "monotonic_ns",
+                      }) + "\n")
+              writer.release()
+
+              streams.append({
+                  "camera_id": camera_id,
+                  "source": str(camera_index),
+                  "width": width,
+                  "height": height,
+                  "nominal_fps": fps,
+                  "frames_read": frame_count,
+                  "frames_written": frame_count,
+                  "queue_drops": 0,
+                  "read_failures": 0,
+                  "first_timestamp_ns": start_ns,
+                  "last_timestamp_ns": start_ns + (frame_count - 1) * interval_ns,
+              })
+
+          session = {
+              "schema_version": "0.1.0",
+              "episode_id": "episode_ci_0001",
+              "task_id": "cable_route_connector_insert_v0_1",
+              "participant_id": "participant_ci_test",
+              "capture_block_id": "capture_block_ci",
+              "instruction_id": "base_instruction_v0_1",
+              "start_time_utc": "2026-08-10T16:00:00Z",
+              "end_time_utc": "2026-08-10T16:00:01Z",
+              "timestamp_clock": "monotonic_ns",
+              "synchronization": "software_timestamped_not_hardware_triggered",
+              "streams": streams,
+              "known_limitations": [
+                  "Synthetic CI frames; no real participant data.",
+                  "Software timestamps; no hardware trigger."
+              ],
+          }
+          (episode_dir / "capture_session.json").write_text(
+              json.dumps(session, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          print(episode_dir)
+          PY
+
+      - name: Generate schema-valid episode scaffold
+        run: |
+          python demo/scaffold_episode.py /tmp/physical-ai-episode \
+            --episode-class standard_success \
+            --object-variant synthetic_ci_fixture \
+            --start-position-variant synthetic_ci_fixture \
+            --outcome aborted
+
+      - name: Run full automated episode validator
+        run: |
+          python demo/validate_episode.py /tmp/physical-ai-episode \
+            --report /tmp/physical-ai-episode/validation_report.json
+
+      - name: Assert report result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(
+              Path("/tmp/physical-ai-episode/validation_report.json").read_text()
+          )
+          summary = report["summary"]
+          assert summary["automated_decision"] == "pass_pending_manual_review", summary
+          assert summary["hard_failures"] == 0, summary
+          assert summary["manual_reviews_required"] == 2, summary
+          print(json.dumps(summary, indent=2))
+          PY
