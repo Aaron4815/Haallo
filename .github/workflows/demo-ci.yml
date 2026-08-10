@@ -1,0 +1,72 @@
+name: Validate technical demonstrator
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "demo/**"
+      - ".github/workflows/demo-ci.yml"
+  pull_request:
+    paths:
+      - "demo/**"
+      - ".github/workflows/demo-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: demo/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r demo/requirements.txt
+
+      - name: Compile Python files
+        run: |
+          python -m py_compile demo/record_multiview.py
+          python -m py_compile demo/validate_episode.py
+
+      - name: Validate JSON Schema and example metadata
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator, FormatChecker
+
+          schema = json.loads(Path("demo/episode.schema.json").read_text(encoding="utf-8"))
+          example = json.loads(Path("demo/example_episode.json").read_text(encoding="utf-8"))
+
+          Draft202012Validator.check_schema(schema)
+          validator = Draft202012Validator(schema, format_checker=FormatChecker())
+          errors = sorted(validator.iter_errors(example), key=lambda error: list(error.path))
+          if errors:
+              for error in errors:
+                  location = ".".join(str(part) for part in error.absolute_path) or "<root>"
+                  print(f"{location}: {error.message}")
+              raise SystemExit(1)
+          print("Schema and example episode are valid.")
+          PY
+
+      - name: Check public documentation files
+        run: |
+          test -s demo/README.md
+          test -s demo/CAPTURE_PROTOCOL.md
+          test -s demo/ACCEPTANCE_TESTS.md
+          test -s demo/DATA_CARD_TEMPLATE.md
+          test -s demo/episode.schema.json
+          test -s demo/example_episode.json
