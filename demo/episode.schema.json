@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/physical-ai-data/episode.schema.json",
+  "title": "Physical AI Demonstration Episode",
+  "description": "Episode-level metadata for the cable-routing and connector-insertion demonstrator.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "episode_id",
+    "task_id",
+    "participant_id",
+    "capture_block_id",
+    "episode_class",
+    "instruction_id",
+    "start_time_utc",
+    "streams",
+    "object_variant",
+    "start_position_variant",
+    "outcome",
+    "task_phases",
+    "rights_class",
+    "quality"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "episode_id": {
+      "type": "string",
+      "pattern": "^episode_[0-9]{4,}$"
+    },
+    "task_id": {
+      "type": "string",
+      "const": "cable_route_connector_insert_v0_1"
+    },
+    "participant_id": {
+      "type": "string",
+      "pattern": "^participant_[A-Za-z0-9_-]+$"
+    },
+    "capture_block_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "episode_class": {
+      "type": "string",
+      "enum": [
+        "standard_success",
+        "variation_success",
+        "intentional_failure",
+        "recovery"
+      ]
+    },
+    "instruction_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "start_time_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "duration_seconds": {
+      "type": "number",
+      "minimum": 0
+    },
+    "streams": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "camera_id",
+          "video_path",
+          "timestamps_path",
+          "width",
+          "height",
+          "nominal_fps",
+          "calibration_id"
+        ],
+        "properties": {
+          "camera_id": {"type": "string"},
+          "video_path": {"type": "string"},
+          "timestamps_path": {"type": "string"},
+          "width": {"type": "integer", "minimum": 1},
+          "height": {"type": "integer", "minimum": 1},
+          "nominal_fps": {"type": "number", "exclusiveMinimum": 0},
+          "recorded_frames": {"type": "integer", "minimum": 0},
+          "calibration_id": {"type": "string"},
+          "timestamp_clock": {
+            "type": "string",
+            "enum": ["monotonic_ns", "hardware_clock", "other"]
+          }
+        }
+      }
+    },
+    "object_variant": {
+      "type": "string",
+      "minLength": 1
+    },
+    "start_position_variant": {
+      "type": "string",
+      "minLength": 1
+    },
+    "environment_variants": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "intended_failure_class": {
+      "type": ["string", "null"]
+    },
+    "observed_failure_classes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "missed_grasp",
+          "cable_outside_guide",
+          "excessive_slack",
+          "connector_misaligned",
+          "partial_insertion",
+          "wrong_orientation",
+          "verification_failed",
+          "unknown_failure"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "recovery_attempted": {"type": "boolean"},
+    "recovery_successful": {"type": ["boolean", "null"]},
+    "outcome": {
+      "type": "string",
+      "enum": ["success", "failure", "aborted"]
+    },
+    "task_phases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["phase", "start_ns", "end_ns"],
+        "properties": {
+          "phase": {
+            "type": "string",
+            "enum": [
+              "approach_cable",
+              "grasp_cable",
+              "route_guide_1",
+              "route_guide_2",
+              "approach_connector",
+              "align_connector",
+              "insert_connector",
+              "verify_seated",
+              "recover_from_error",
+              "complete"
+            ]
+          },
+          "start_ns": {"type": "integer", "minimum": 0},
+          "end_ns": {"type": "integer", "minimum": 0},
+          "annotator_id": {"type": "string"},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      }
+    },
+    "rights_class": {
+      "type": "string",
+      "enum": [
+        "internal_validation_only",
+        "named_customer_project",
+        "nonexclusive_reuse_permitted"
+      ]
+    },
+    "retention_class": {
+      "type": "string"
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "reviewer_id", "reject_reasons"],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": ["accepted", "conditional", "rejected"]
+        },
+        "reviewer_id": {"type": "string"},
+        "reject_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "missing_camera_stream",
+              "corrupt_video",
+              "timestamp_gap",
+              "task_out_of_frame",
+              "camera_moved",
+              "privacy_exposure",
+              "wrong_task_instruction",
+              "variation_metadata_wrong",
+              "outcome_not_visible",
+              "unsafe_or_unplanned_action",
+              "other"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "notes": {"type": "string"}
+      }
+    },
+    "known_limitations": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  }
+}
