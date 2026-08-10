@@ -1,0 +1,133 @@
+{
+  "schema_version": "0.1.0",
+  "episode_id": "episode_0001",
+  "task_id": "cable_route_connector_insert_v0_1",
+  "participant_id": "participant_demo_01",
+  "capture_block_id": "capture_block_001",
+  "episode_class": "recovery",
+  "instruction_id": "recovery_partial_insertion_v0_1",
+  "start_time_utc": "2026-08-10T16:00:00Z",
+  "duration_seconds": 18.4,
+  "streams": [
+    {
+      "camera_id": "camera_0",
+      "video_path": "camera_0.mp4",
+      "timestamps_path": "camera_0_timestamps.jsonl",
+      "width": 1280,
+      "height": 720,
+      "nominal_fps": 30.0,
+      "recorded_frames": 552,
+      "calibration_id": "calibration_block_001_camera_0",
+      "timestamp_clock": "monotonic_ns"
+    },
+    {
+      "camera_id": "camera_1",
+      "video_path": "camera_1.mp4",
+      "timestamps_path": "camera_1_timestamps.jsonl",
+      "width": 1280,
+      "height": 720,
+      "nominal_fps": 30.0,
+      "recorded_frames": 550,
+      "calibration_id": "calibration_block_001_camera_1",
+      "timestamp_clock": "monotonic_ns"
+    }
+  ],
+  "object_variant": "connector_variant_a",
+  "start_position_variant": "cable_left_curved_medium_slack",
+  "environment_variants": [
+    "neutral_indoor_light",
+    "guide_spacing_standard"
+  ],
+  "intended_failure_class": "partial_insertion",
+  "observed_failure_classes": [
+    "partial_insertion"
+  ],
+  "recovery_attempted": true,
+  "recovery_successful": true,
+  "outcome": "success",
+  "task_phases": [
+    {
+      "phase": "approach_cable",
+      "start_ns": 0,
+      "end_ns": 1200000000,
+      "annotator_id": "annotator_01",
+      "confidence": 0.98
+    },
+    {
+      "phase": "grasp_cable",
+      "start_ns": 1200000000,
+      "end_ns": 2700000000,
+      "annotator_id": "annotator_01",
+      "confidence": 0.97
+    },
+    {
+      "phase": "route_guide_1",
+      "start_ns": 2700000000,
+      "end_ns": 5200000000,
+      "annotator_id": "annotator_01",
+      "confidence": 0.96
+    },
+    {
+      "phase": "route_guide_2",
+      "start_ns": 5200000000,
+      "end_ns": 7600000000,
+      "annotator_id": "annotator_01",
+      "confidence": 0.95
+    },
+    {
+      "phase": "approach_connector",
+      "start_ns": 7600000000,
+      "end_ns": 8900000000,
+      "annotator_id": "annotator_01",
+      "confidence": 0.98
+    },
+    {
+      "phase": "align_connector",
+      "start_ns": 8900000000,
+      "end_ns": 10800000000,
+      "annotator_id": "annotator_01",
+      "confidence": 0.93
+    },
+    {
+      "phase": "insert_connector",
+      "start_ns": 10800000000,
+      "end_ns": 12400000000,
+      "annotator_id": "annotator_01",
+      "confidence": 0.94
+    },
+    {
+      "phase": "recover_from_error",
+      "start_ns": 12400000000,
+      "end_ns": 15300000000,
+      "annotator_id": "annotator_01",
+      "confidence": 0.91
+    },
+    {
+      "phase": "verify_seated",
+      "start_ns": 15300000000,
+      "end_ns": 17400000000,
+      "annotator_id": "annotator_01",
+      "confidence": 0.96
+    },
+    {
+      "phase": "complete",
+      "start_ns": 17400000000,
+      "end_ns": 18400000000,
+      "annotator_id": "annotator_01",
+      "confidence": 0.99
+    }
+  ],
+  "rights_class": "internal_validation_only",
+  "retention_class": "demo_raw_30_days",
+  "quality": {
+    "decision": "conditional",
+    "reviewer_id": "reviewer_01",
+    "reject_reasons": [],
+    "notes": "Synthetic metadata example. Video files are not included. Software timing limitations apply."
+  },
+  "known_limitations": [
+    "Example metadata only; no corresponding public participant video.",
+    "Camera streams are software timestamped rather than hardware triggered.",
+    "No robot-policy improvement has been evaluated."
+  ]
+}
