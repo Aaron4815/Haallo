@@ -8,7 +8,7 @@ Checks:
 - timestamp JSONL syntax, ordering and uniqueness
 - frame/timestamp count agreement
 - task-phase ordering
-- basic rights/privacy metadata presence
+- basic rights and pseudonymization metadata
 
 The script validates data integrity. It cannot determine whether private or
 confidential material is visually present; that still requires human review.
@@ -21,7 +21,7 @@ import json
 import math
 import statistics
 import sys
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -143,7 +143,10 @@ def timing_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
 
     deltas = [right - left for left, right in zip(timestamps, timestamps[1:])]
     sorted_deltas = sorted(deltas)
-    p95_index = min(len(sorted_deltas) - 1, math.ceil(len(sorted_deltas) * 0.95) - 1)
+    p95_index = min(
+        len(sorted_deltas) - 1,
+        math.ceil(len(sorted_deltas) * 0.95) - 1,
+    )
     duplicates = sum(1 for delta in deltas if delta == 0)
     return {
         "timestamp_count": len(timestamps),
