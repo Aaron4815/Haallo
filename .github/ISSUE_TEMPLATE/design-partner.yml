@@ -1,0 +1,127 @@
+name: Design partner / robotics data gap
+description: Propose one concrete robot task and the data gap that currently limits it.
+title: "Design partner: [task / robot / model]"
+labels: ["design-partner"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for considering a design-partner discussion. Do not include personal data, trade secrets, customer names or confidential files in a public issue. Use placeholders where necessary; sensitive details can be discussed privately after qualification.
+
+  - type: input
+    id: organization
+    attributes:
+      label: Organization or team
+      description: Public organization/team name, or "confidential".
+      placeholder: Example Robotics GmbH
+    validations:
+      required: true
+
+  - type: input
+    id: contact_role
+    attributes:
+      label: Your technical role
+      placeholder: Head of Robotics, ML Engineer, System Integrator
+    validations:
+      required: true
+
+  - type: textarea
+    id: task
+    attributes:
+      label: Concrete robot task
+      description: Describe one task, not a broad industry vision.
+      placeholder: The robot must route a flexible cable through two guides and insert a connector.
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_failure
+    attributes:
+      label: Current failure mode or bottleneck
+      description: What currently prevents reliable evaluation or deployment?
+      placeholder: Rare connector orientations and partial insertions are not represented in our current data.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: robot_stage
+    attributes:
+      label: Current technical stage
+      options:
+        - Concept only
+        - Simulation available
+        - Lab robot prototype
+        - Customer pilot
+        - Production deployment
+        - Other / confidential
+    validations:
+      required: true
+
+  - type: textarea
+    id: stack
+    attributes:
+      label: Robot, model and data stack
+      description: Share only public or non-confidential information.
+      placeholder: ROS 2, two RGB-D cameras, imitation-learning policy, custom dataset format.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: modalities
+    attributes:
+      label: Potentially relevant data modalities
+      options:
+        - label: Multi-view RGB video
+        - label: RGB-D / depth
+        - label: 2D/3D hand, tool or object trajectories
+        - label: Force / torque / tactile signals
+        - label: Teleoperation or robot action-state data
+        - label: Failure and recovery sequences
+        - label: Annotation and task phases
+        - label: Rights, provenance and quality documentation
+
+  - type: textarea
+    id: existing_data
+    attributes:
+      label: Existing data and missing coverage
+      placeholder: We have 500 successful lab episodes but very few recovery examples.
+    validations:
+      required: true
+
+  - type: textarea
+    id: benchmark
+    attributes:
+      label: Evaluation benchmark
+      description: What measurement would decide whether new data helps?
+      placeholder: Connector insertion success on 20 unseen orientations; baseline 62%, target at least 80%.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: commercial
+    attributes:
+      label: Commercial readiness
+      options:
+        - Technical discovery only
+        - Interested in a paid feasibility sprint
+        - Budget exists for a capture pilot
+        - Seeking a research/consortium partner
+        - Not yet known
+    validations:
+      required: true
+
+  - type: input
+    id: timeline
+    attributes:
+      label: Target timeline
+      placeholder: Technical decision in Q4 2026
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Public issue confirmation
+      options:
+        - label: I have not included personal data, credentials, customer secrets or confidential attachments.
+          required: true
+        - label: I understand that opening this issue does not create a contract or guarantee project acceptance.
+          required: true
