@@ -112,7 +112,7 @@ jobs:
 
           session = {
               "schema_version": "0.1.0",
-              "episode_id": "episode_ci_0001",
+              "episode_id": "episode_9001",
               "task_id": "cable_route_connector_insert_v0_1",
               "participant_id": "participant_ci_test",
               "capture_block_id": "capture_block_ci",
