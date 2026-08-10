@@ -3,292 +3,40 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Physical AI Data Germany entwickelt aufgabenspezifische, kalibrierte und rechtlich dokumentierte Trainingsdaten für Robotik und industrielle Automatisierung.">
+  <meta name="description" content="Physical AI Data Germany entwickelt aufgabenspezifische, kalibrierte und rechtlich dokumentierte Trainings- und Validierungsdaten für Robotik und industrielle Automatisierung.">
+  <meta name="robots" content="index,follow">
   <meta name="theme-color" content="#07111f">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:title" content="Physical AI Data Germany — Robot-ready Data Operations">
+  <meta property="og:description" content="Task-spezifische Datenkampagnen für reale Robotikaufgaben: kalibriert, qualitätsgesichert und mit dokumentierter Provenance.">
+  <meta property="og:url" content="https://aaron4815.github.io/Haallo/">
+  <link rel="canonical" href="https://aaron4815.github.io/Haallo/">
   <title>Physical AI Data Germany — Robot-ready Data Operations</title>
   <style>
-    :root {
-      --bg: #07111f;
-      --bg-soft: #0b1829;
-      --panel: rgba(15, 31, 52, .78);
-      --panel-solid: #0f1f34;
-      --line: rgba(157, 190, 224, .17);
-      --text: #f4f7fb;
-      --muted: #9fb0c4;
-      --teal: #53e0c3;
-      --teal-soft: rgba(83, 224, 195, .12);
-      --blue: #75a7ff;
-      --warning: #ffd78a;
-      --max: 1180px;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      color: var(--text);
-      background:
-        radial-gradient(900px 540px at 85% -5%, rgba(64,126,255,.20), transparent 65%),
-        radial-gradient(800px 520px at 5% 18%, rgba(83,224,195,.11), transparent 65%),
-        var(--bg);
-      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.58;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: inherit; text-decoration: none; }
-    .shell { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
-    .nav {
-      position: sticky; top: 0; z-index: 20;
-      background: rgba(7, 17, 31, .74);
-      border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(18px);
-    }
-    .nav-inner { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-    .brand { display: flex; align-items: center; gap: 12px; font-weight: 760; letter-spacing: -.02em; }
-    .mark {
-      width: 34px; height: 34px; border-radius: 10px;
-      display: grid; place-items: center;
-      border: 1px solid rgba(83,224,195,.45);
-      background: linear-gradient(145deg, rgba(83,224,195,.19), rgba(117,167,255,.13));
-      color: var(--teal); font-weight: 900;
-    }
-    .nav-links { display: flex; gap: 24px; color: var(--muted); font-size: 14px; }
-    .nav-links a:hover { color: var(--text); }
-    .nav-cta, .btn-primary, .btn-secondary {
-      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
-      border-radius: 12px; font-weight: 700; transition: .2s ease;
-    }
-    .nav-cta { padding: 10px 14px; background: var(--text); color: #07111f; font-size: 14px; }
-    .hero { padding: 112px 0 74px; position: relative; overflow: hidden; }
-    .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 68px; align-items: center; }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 10px;
-      color: var(--teal); font-size: 13px; font-weight: 760; letter-spacing: .12em; text-transform: uppercase;
-    }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 22px var(--teal); }
-    h1 { margin: 22px 0 24px; max-width: 800px; font-size: clamp(48px, 7vw, 84px); line-height: .98; letter-spacing: -.055em; }
-    h1 span { color: var(--teal); }
-    .hero-copy { max-width: 760px; color: #c3cfdd; font-size: clamp(18px, 2.1vw, 22px); }
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
-    .btn-primary { padding: 14px 19px; color: #04110f; background: var(--teal); box-shadow: 0 12px 40px rgba(83,224,195,.18); }
-    .btn-primary:hover { transform: translateY(-2px); background: #6be8cf; }
-    .btn-secondary { padding: 13px 18px; border: 1px solid var(--line); background: rgba(255,255,255,.025); color: var(--text); }
-    .btn-secondary:hover { border-color: rgba(117,167,255,.55); transform: translateY(-2px); }
-    .micro { margin-top: 18px; font-size: 13px; color: var(--muted); }
-    .hero-card {
-      position: relative; padding: 26px; border: 1px solid var(--line); border-radius: 24px;
-      background: linear-gradient(160deg, rgba(18,39,64,.92), rgba(10,22,38,.86));
-      box-shadow: 0 38px 100px rgba(0,0,0,.35);
-    }
-    .hero-card::before {
-      content:""; position:absolute; inset:-1px; border-radius:24px; padding:1px;
-      background: linear-gradient(145deg, rgba(83,224,195,.45), transparent 34%, rgba(117,167,255,.25));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
-    }
-    .pipeline { display: grid; gap: 12px; }
-    .stage { display: grid; grid-template-columns: 38px 1fr; gap: 14px; padding: 14px; border-radius: 14px; background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.045); }
-    .stage-no { width: 38px; height: 38px; display:grid; place-items:center; border-radius:10px; background:var(--teal-soft); color:var(--teal); font-weight:800; }
-    .stage strong { display:block; font-size:14px; margin-bottom:2px; }
-    .stage small { color:var(--muted); }
-    .section { padding: 86px 0; }
-    .section-label { color: var(--teal); text-transform: uppercase; letter-spacing: .14em; font-size: 12px; font-weight: 800; }
-    h2 { margin: 14px 0 18px; font-size: clamp(34px, 4.5vw, 56px); line-height: 1.04; letter-spacing: -.04em; }
-    .section-intro { max-width: 760px; color: var(--muted); font-size: 18px; }
-    .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:38px; }
-    .card { padding: 24px; border-radius: 18px; border:1px solid var(--line); background:var(--panel); }
-    .card h3 { margin: 15px 0 9px; font-size: 20px; letter-spacing: -.02em; }
-    .card p { margin:0; color:var(--muted); }
-    .icon { width:42px; height:42px; display:grid; place-items:center; border-radius:12px; background:var(--teal-soft); color:var(--teal); font-weight:900; }
-    .focus-panel { margin-top: 36px; display:grid; grid-template-columns:1fr 1fr; gap:18px; }
-    .focus-list { display:grid; gap:12px; }
-    .focus-item { display:flex; gap:12px; align-items:flex-start; padding:16px; background:rgba(255,255,255,.025); border:1px solid var(--line); border-radius:14px; }
-    .check { color:var(--teal); font-weight:900; }
-    .offer { padding: 34px; border-radius: 24px; border:1px solid rgba(83,224,195,.27); background:linear-gradient(150deg, rgba(83,224,195,.09), rgba(117,167,255,.06)); }
-    .price { margin:10px 0 2px; font-size:52px; line-height:1; font-weight:850; letter-spacing:-.05em; }
-    .price small { font-size:15px; font-weight:650; color:var(--muted); letter-spacing:0; }
-    .deliverables { display:grid; grid-template-columns:1fr 1fr; gap:10px 26px; margin:24px 0 0; padding:0; list-style:none; }
-    .deliverables li { color:#cbd6e3; display:flex; gap:9px; }
-    .status-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:34px; }
-    .status-card { padding:26px; border-radius:18px; border:1px solid var(--line); background:var(--panel); }
-    .status-card h3 { margin:0 0 14px; }
-    .status-card ul { margin:0; padding-left:20px; color:var(--muted); }
-    .status-card li + li { margin-top:8px; }
-    .open h3 { color:var(--warning); }
-    .partner-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:34px; }
-    .partner-card { min-height:250px; display:flex; flex-direction:column; }
-    .partner-card .tag { align-self:flex-start; padding:5px 9px; border-radius:999px; background:var(--teal-soft); color:var(--teal); font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; }
-    .partner-card a { margin-top:auto; color:var(--teal); font-weight:700; }
-    .principles { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:30px; }
-    .principle { padding:18px; border-left:2px solid var(--teal); background:rgba(255,255,255,.025); color:#c6d2df; }
-    .cta-box { padding:46px; border-radius:26px; border:1px solid var(--line); background:linear-gradient(140deg, rgba(117,167,255,.12), rgba(83,224,195,.09)); display:grid; grid-template-columns:1fr auto; gap:30px; align-items:center; }
-    .cta-box h2 { margin:0 0 12px; font-size:clamp(32px,4vw,52px); }
-    .cta-box p { margin:0; color:#c4d0dd; max-width:760px; }
-    footer { padding:36px 0 48px; border-top:1px solid var(--line); color:var(--muted); font-size:13px; }
-    .footer-inner { display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; }
-    .disclosure { margin-top:14px; max-width:850px; }
-    @media (max-width: 900px) {
-      .nav-links { display:none; }
-      .hero { padding-top:78px; }
-      .hero-grid, .focus-panel, .status-grid, .cta-box { grid-template-columns:1fr; }
-      .grid-3, .partner-grid { grid-template-columns:1fr 1fr; }
-      .principles { grid-template-columns:1fr 1fr; }
-    }
-    @media (max-width: 620px) {
-      .shell { width:min(calc(100% - 24px), var(--max)); }
-      .nav-cta { display:none; }
-      h1 { font-size:46px; }
-      .grid-3, .partner-grid, .principles, .deliverables { grid-template-columns:1fr; }
-      .hero-card, .offer, .cta-box { padding:22px; }
-      .section { padding:64px 0; }
-    }
+    :root{--bg:#07111f;--bg2:#0b1829;--panel:rgba(15,31,52,.78);--line:rgba(157,190,224,.17);--text:#f4f7fb;--muted:#9fb0c4;--teal:#53e0c3;--teal-soft:rgba(83,224,195,.12);--blue:#75a7ff;--warning:#ffd78a;--max:1180px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--text);background:radial-gradient(900px 540px at 85% -5%,rgba(64,126,255,.20),transparent 65%),radial-gradient(800px 520px at 5% 18%,rgba(83,224,195,.11),transparent 65%),var(--bg);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.58;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}.shell{width:min(calc(100% - 40px),var(--max));margin:auto}.nav{position:sticky;top:0;z-index:20;background:rgba(7,17,31,.76);border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}.nav-in{height:72px;display:flex;align-items:center;justify-content:space-between;gap:22px}.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:-.02em}.mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;border:1px solid rgba(83,224,195,.45);background:linear-gradient(145deg,rgba(83,224,195,.19),rgba(117,167,255,.13));color:var(--teal);font-weight:900}.links{display:flex;gap:22px;color:var(--muted);font-size:14px}.links a:hover{color:var(--text)}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;font-weight:800;transition:.2s ease}.primary{padding:14px 19px;color:#04110f;background:var(--teal);box-shadow:0 12px 40px rgba(83,224,195,.18)}.secondary{padding:13px 18px;border:1px solid var(--line);background:rgba(255,255,255,.025)}.nav-cta{padding:10px 14px;background:var(--text);color:#07111f;font-size:14px}.btn:hover{transform:translateY(-2px)}.hero{padding:110px 0 76px}.hero-grid{display:grid;grid-template-columns:1.18fr .82fr;gap:66px;align-items:center}.eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--teal);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}.dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 22px var(--teal)}h1{margin:22px 0 24px;font-size:clamp(48px,7vw,84px);line-height:.98;letter-spacing:-.055em}h1 span{color:var(--teal)}.hero-copy{max-width:760px;color:#c3cfdd;font-size:clamp(18px,2.1vw,22px)}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}.micro{margin-top:17px;color:var(--muted);font-size:13px}.hero-card{padding:26px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(160deg,rgba(18,39,64,.92),rgba(10,22,38,.86));box-shadow:0 38px 100px rgba(0,0,0,.35)}.pipeline{display:grid;gap:11px}.stage{display:grid;grid-template-columns:38px 1fr;gap:14px;padding:14px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.045)}.no{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:var(--teal-soft);color:var(--teal);font-weight:900}.stage strong{display:block;font-size:14px}.stage small{color:var(--muted)}.section{padding:86px 0}.label{color:var(--teal);text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:800}h2{margin:14px 0 18px;font-size:clamp(34px,4.5vw,56px);line-height:1.04;letter-spacing:-.04em}.intro{max-width:770px;color:var(--muted);font-size:18px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}.card{padding:24px;border-radius:18px;border:1px solid var(--line);background:var(--panel)}.card h3{margin:14px 0 8px;font-size:20px}.card p{margin:0;color:var(--muted)}.icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:var(--teal-soft);color:var(--teal);font-weight:900}.focus{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}.focus-item{display:flex;gap:12px;padding:16px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025)}.check{color:var(--teal);font-weight:900}.offer{padding:36px;border-radius:24px;border:1px solid rgba(83,224,195,.27);background:linear-gradient(150deg,rgba(83,224,195,.09),rgba(117,167,255,.06))}.price{margin:12px 0 2px;font-size:52px;line-height:1;font-weight:900;letter-spacing:-.05em}.price small{font-size:15px;font-weight:650;letter-spacing:0;color:var(--muted)}.deliverables{display:grid;grid-template-columns:1fr 1fr;gap:10px 26px;margin:24px 0 0;padding:0;list-style:none}.deliverables li{color:#cbd6e3;display:flex;gap:9px}.status{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}.status-card{padding:26px;border-radius:18px;border:1px solid var(--line);background:var(--panel)}.status-card h3{margin:0 0 14px}.status-card ul{margin:0;padding-left:20px;color:var(--muted)}.status-card li+li{margin-top:8px}.open h3{color:var(--warning)}.partner-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}.partner{min-height:250px;display:flex;flex-direction:column}.tag{align-self:flex-start;padding:5px 9px;border-radius:999px;background:var(--teal-soft);color:var(--teal);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.partner a{margin-top:auto;color:var(--teal);font-weight:800}.principles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}.principle{padding:18px;border-left:2px solid var(--teal);background:rgba(255,255,255,.025);color:#c6d2df}.cta{padding:46px;border-radius:26px;border:1px solid var(--line);background:linear-gradient(140deg,rgba(117,167,255,.12),rgba(83,224,195,.09));display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center}.cta h2{margin:0 0 12px}.cta p{margin:0;color:#c4d0dd}footer{padding:36px 0 48px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.footer{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}.disclosure{margin-top:14px;max-width:870px}@media(max-width:900px){.links{display:none}.hero-grid,.focus,.status,.cta{grid-template-columns:1fr}.grid3,.partner-grid{grid-template-columns:1fr 1fr}.principles{grid-template-columns:1fr 1fr}}@media(max-width:620px){.shell{width:min(calc(100% - 24px),var(--max))}.nav-cta{display:none}h1{font-size:46px}.grid3,.partner-grid,.principles,.deliverables{grid-template-columns:1fr}.hero{padding-top:76px}.hero-card,.offer,.cta{padding:22px}}
   </style>
 </head>
 <body>
-  <nav class="nav">
-    <div class="shell nav-inner">
-      <a class="brand" href="#top"><span class="mark">P</span><span>Physical AI Data Germany</span></a>
-      <div class="nav-links">
-        <a href="#leistung">Leistung</a>
-        <a href="#pilot">Pilot</a>
-        <a href="#status">Status</a>
-        <a href="#partner">Partner</a>
-      </div>
-      <a class="nav-cta" href="mailto:aaronwiss62@gmail.com?subject=Physical%20AI%20Data%20%E2%80%93%20Erstgespr%C3%A4ch">Erstgespräch anfragen</a>
-    </div>
-  </nav>
-
+  <nav class="nav"><div class="shell nav-in"><a class="brand" href="#top"><span class="mark">P</span><span>Physical AI Data Germany</span></a><div class="links"><a href="#leistung">Leistung</a><a href="#pilot">Pilot</a><a href="#status">Status</a><a href="documents.html">Dokumente</a></div><a class="btn nav-cta" href="mailto:aaronwiss62@gmail.com?subject=Physical%20AI%20Data%20%E2%80%93%20Erstgespr%C3%A4ch">Erstgespräch</a></div></nav>
   <main id="top">
-    <section class="hero">
-      <div class="shell hero-grid">
-        <div>
-          <div class="eyebrow"><span class="dot"></span> Physical AI Data Operations · Münster</div>
-          <h1>Reale Arbeit wird zu <span>robot-ready Daten.</span></h1>
-          <p class="hero-copy">Aufgabenspezifische, kalibrierte und rechtlich dokumentierte Trainings- und Validierungsdaten für Robotikteams, Integratoren und industrielle Automatisierung.</p>
-          <div class="hero-actions">
-            <a class="btn-primary" href="mailto:aaronwiss62@gmail.com?subject=Design-Partner%20%E2%80%93%20Physical%20AI%20Data">Design-Partner-Gespräch</a>
-            <a class="btn-secondary" href="PARTNER_BRIEF_DE.md">Partnerbrief lesen</a>
-          </div>
-          <p class="micro">Arbeitstitel · frühe Validierungsphase · keine Behauptung eines fertigen Produktionssystems</p>
-        </div>
-        <aside class="hero-card" aria-label="Datenpipeline">
-          <div class="pipeline">
-            <div class="stage"><span class="stage-no">01</span><div><strong>Task Design</strong><small>Aufgabe, Modalitäten, Varianten und Benchmark</small></div></div>
-            <div class="stage"><span class="stage-no">02</span><div><strong>Calibrated Capture</strong><small>Multi-View, RGB-D, Zustände und Interaktionen</small></div></div>
-            <div class="stage"><span class="stage-no">03</span><div><strong>Failure & Recovery</strong><small>Gezielte Fehler, seltene Zustände und Korrekturen</small></div></div>
-            <div class="stage"><span class="stage-no">04</span><div><strong>QA & Provenance</strong><small>Abnahme, Rechte, Herkunft und Löschung</small></div></div>
-            <div class="stage"><span class="stage-no">05</span><div><strong>Robot-ready Export</strong><small>Kundenschema oder kompatibles Robotikdatenformat</small></div></div>
-          </div>
-        </aside>
-      </div>
-    </section>
+    <section class="hero"><div class="shell hero-grid"><div><div class="eyebrow"><span class="dot"></span>Physical AI Data Operations · Münster</div><h1>Reale Arbeit wird zu <span>robot-ready Daten.</span></h1><p class="hero-copy">Aufgabenspezifische, kalibrierte und rechtlich dokumentierte Trainings- und Validierungsdaten für Robotikteams, Integratoren und industrielle Automatisierung.</p><div class="actions"><a class="btn primary" href="mailto:aaronwiss62@gmail.com?subject=Design-Partner%20%E2%80%93%20Physical%20AI%20Data">Design-Partner-Gespräch</a><a class="btn secondary" href="documents.html#partner">Partnerbrief lesen</a></div><p class="micro">Arbeitstitel · frühe Validierungsphase · transparenter Beweisstand</p></div><aside class="hero-card"><div class="pipeline"><div class="stage"><span class="no">01</span><div><strong>Task Design</strong><small>Aufgabe, Modalitäten, Varianten und Benchmark</small></div></div><div class="stage"><span class="no">02</span><div><strong>Calibrated Capture</strong><small>Multi-View, RGB-D, Zustände und Interaktionen</small></div></div><div class="stage"><span class="no">03</span><div><strong>Failure & Recovery</strong><small>Gezielte Fehler, Grenzfälle und Korrekturen</small></div></div><div class="stage"><span class="no">04</span><div><strong>QA & Provenance</strong><small>Abnahme, Rechte, Herkunft und Löschung</small></div></div><div class="stage"><span class="no">05</span><div><strong>Robot-ready Export</strong><small>Kundenschema oder kompatibles Datenformat</small></div></div></div></aside></div></section>
 
-    <section class="section" id="leistung">
-      <div class="shell">
-        <div class="section-label">Leistung</div>
-        <h2>Nicht mehr Daten. Die richtigen Daten.</h2>
-        <p class="section-intro">Das Produkt ist kein Rohvideo-Archiv, sondern ein klar abgegrenztes Datenpaket für eine konkrete Roboteraufgabe — mit technischer und rechtlicher Abnahmefähigkeit.</p>
-        <div class="grid-3">
-          <article class="card"><div class="icon">3D</div><h3>Kalibrierte Erfassung</h3><p>Synchronisierte Multi-View- und RGB-D-Aufnahmen, optional ergänzt um Hand-, Werkzeug- und Objekttrajektorien.</p></article>
-          <article class="card"><div class="icon">↻</div><h3>Failure & Recovery</h3><p>Gezielte Abdeckung seltener Fehler, Grenzfälle und Korrekturbewegungen statt zufälliger Erfolgssequenzen.</p></article>
-          <article class="card"><div class="icon">QA</div><h3>Messbare Qualität</h3><p>Variationsmatrix, Acceptance Criteria, Reject Reasons, Quality Report und reproduzierbare Lieferlogik.</p></article>
-          <article class="card"><div class="icon">§</div><h3>Rechte & Provenance</h3><p>Projektbezogene Nutzungsrechte, Teilnehmer- und Standortlogik, Datenherkunft, Retention und Löschung.</p></article>
-          <article class="card"><div class="icon">↗</div><h3>Kundenspezifischer Export</h3><p>Ausgabe im vereinbarten Kundenschema oder in einem kompatiblen Robotikdatenformat.</p></article>
-          <article class="card"><div class="icon">OP</div><h3>Data Operations</h3><p>Planung, Standorte, Demonstratoren, Capture, Verarbeitung und Qualität als verantworteter End-to-End-Prozess.</p></article>
-        </div>
-      </div>
-    </section>
+    <section class="section" id="leistung"><div class="shell"><div class="label">Leistung</div><h2>Nicht mehr Daten. Die richtigen Daten.</h2><p class="intro">Das Produkt ist kein Rohvideo-Archiv, sondern ein abnahmefähiges Datenpaket für eine konkrete Roboteraufgabe.</p><div class="grid3"><article class="card"><div class="icon">3D</div><h3>Kalibrierte Erfassung</h3><p>Synchronisierte Multi-View- und RGB-D-Aufnahmen, optional ergänzt um Hand-, Werkzeug- und Objekttrajektorien.</p></article><article class="card"><div class="icon">↻</div><h3>Failure & Recovery</h3><p>Gezielte Abdeckung seltener Fehler, Grenzfälle und Korrekturbewegungen.</p></article><article class="card"><div class="icon">QA</div><h3>Messbare Qualität</h3><p>Variationsmatrix, Acceptance Criteria, Reject Reasons und Quality Report.</p></article><article class="card"><div class="icon">§</div><h3>Rechte & Provenance</h3><p>Projektbezogene Nutzung, Herkunft, Retention und Löschdokumentation.</p></article><article class="card"><div class="icon">↗</div><h3>Kundenspezifischer Export</h3><p>Ausgabe im vereinbarten Kundenschema oder kompatiblen Robotikdatenformat.</p></article><article class="card"><div class="icon">OP</div><h3>Data Operations</h3><p>Planung, Standorte, Demonstratoren, Capture, Verarbeitung und QA als verantworteter Prozess.</p></article></div></div></section>
 
-    <section class="section">
-      <div class="shell">
-        <div class="section-label">Erster Fokus</div>
-        <h2>Flexible industrielle Manipulation.</h2>
-        <div class="focus-panel">
-          <div class="focus-list">
-            <div class="focus-item"><span class="check">✓</span><div><strong>Kabelrouting und Kabelbaum-Montage</strong><br><span style="color:var(--muted)">Flexible Geometrie, Kontaktpunkte und Reihenfolgen.</span></div></div>
-            <div class="focus-item"><span class="check">✓</span><div><strong>Stecker greifen, ausrichten und einstecken</strong><br><span style="color:var(--muted)">Orientierung, Toleranzen, Fehlversuche und Sitzprüfung.</span></div></div>
-            <div class="focus-item"><span class="check">✓</span><div><strong>Schläuche, Clips und deformierbare Bauteile</strong><br><span style="color:var(--muted)">Zustandsänderung, Verformung und variable Griffpunkte.</span></div></div>
-          </div>
-          <div class="focus-list">
-            <div class="focus-item"><span class="check">✓</span><div><strong>Variable Maschinenbestückung</strong><br><span style="color:var(--muted)">Neue Werkstücke, Ausgangslagen und Prozessvarianten.</span></div></div>
-            <div class="focus-item"><span class="check">✓</span><div><strong>Fehlererkennung und Korrektur</strong><br><span style="color:var(--muted)">Recovery-Verhalten als eigener Datenbestandteil.</span></div></div>
-            <div class="focus-item"><span class="check">✓</span><div><strong>Sim-to-Real-Validierung</strong><br><span style="color:var(--muted)">Reale Prüfsequenzen ergänzend zu Simulation und virtuellen Tests.</span></div></div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section class="section"><div class="shell"><div class="label">Erster Fokus</div><h2>Flexible industrielle Manipulation.</h2><div class="focus"><div><div class="focus-item"><span class="check">✓</span><div><strong>Kabelrouting und Kabelbaum-Montage</strong><br><span style="color:var(--muted)">Flexible Geometrie, Kontaktpunkte und Reihenfolgen.</span></div></div><div class="focus-item"><span class="check">✓</span><div><strong>Stecker greifen, ausrichten und einstecken</strong><br><span style="color:var(--muted)">Orientierung, Toleranzen, Fehlversuche und Sitzprüfung.</span></div></div><div class="focus-item"><span class="check">✓</span><div><strong>Schläuche, Clips und deformierbare Bauteile</strong><br><span style="color:var(--muted)">Verformung und variable Griffpunkte.</span></div></div></div><div><div class="focus-item"><span class="check">✓</span><div><strong>Variable Maschinenbestückung</strong><br><span style="color:var(--muted)">Neue Werkstücke, Ausgangslagen und Prozessvarianten.</span></div></div><div class="focus-item"><span class="check">✓</span><div><strong>Fehlererkennung und Korrektur</strong><br><span style="color:var(--muted)">Recovery-Verhalten als eigener Datenbestandteil.</span></div></div><div class="focus-item"><span class="check">✓</span><div><strong>Sim-to-Real-Validierung</strong><br><span style="color:var(--muted)">Reale Prüfsequenzen ergänzend zu Simulation.</span></div></div></div></div></div></section>
 
-    <section class="section" id="pilot">
-      <div class="shell">
-        <div class="offer">
-          <div class="section-label">Einstiegsprodukt</div>
-          <h2>Zehntägiger Feasibility Sprint.</h2>
-          <p class="section-intro">Bevor Capture-Hardware, Demonstratoren und große Datenmengen gebunden werden, entscheidet der Sprint, welche Daten wirklich benötigt werden und woran ihr Nutzen gemessen wird.</p>
-          <div class="price">4.900 € <small>netto · Einführungspreis für erste Designpartner</small></div>
-          <ul class="deliverables">
-            <li><span class="check">✓</span>Task- und Modalitätsspezifikation</li>
-            <li><span class="check">✓</span>Variationsmatrix</li>
-            <li><span class="check">✓</span>Datenschema</li>
-            <li><span class="check">✓</span>Acceptance Criteria</li>
-            <li><span class="check">✓</span>Rights-/Provenance-Konzept</li>
-            <li><span class="check">✓</span>Quality-Assurance-Plan</li>
-            <li><span class="check">✓</span>Kalkulierter Capture-Pilot</li>
-            <li><span class="check">✓</span>Go-/No-Go-Workshop</li>
-          </ul>
-          <div class="hero-actions"><a class="btn-primary" href="mailto:aaronwiss62@gmail.com?subject=Feasibility%20Sprint%20%E2%80%93%20Physical%20AI%20Data">Sprint prüfen</a><a class="btn-secondary" href="PILOT_OFFER.md">Vollständigen Scope öffnen</a></div>
-          <p class="micro">Keine garantierte Modellverbesserung. Ein Produktionsdatensatz ist nicht automatisch enthalten.</p>
-        </div>
-      </div>
-    </section>
+    <section class="section" id="pilot"><div class="shell"><div class="offer"><div class="label">Einstiegsprodukt</div><h2>Zehntägiger Feasibility Sprint.</h2><p class="intro">Der Sprint entscheidet, welche Daten wirklich benötigt werden und woran ihr Nutzen gemessen wird, bevor größere Ressourcen gebunden werden.</p><div class="price">4.900 € <small>netto · Einführungspreis für erste Designpartner</small></div><ul class="deliverables"><li><span class="check">✓</span>Task- und Modalitätsspezifikation</li><li><span class="check">✓</span>Variationsmatrix</li><li><span class="check">✓</span>Datenschema</li><li><span class="check">✓</span>Acceptance Criteria</li><li><span class="check">✓</span>Rights-/Provenance-Konzept</li><li><span class="check">✓</span>Quality-Assurance-Plan</li><li><span class="check">✓</span>Kalkulierter Capture-Pilot</li><li><span class="check">✓</span>Go-/No-Go-Workshop</li></ul><div class="actions"><a class="btn primary" href="mailto:aaronwiss62@gmail.com?subject=Feasibility%20Sprint%20%E2%80%93%20Physical%20AI%20Data">Sprint prüfen</a><a class="btn secondary" href="documents.html#pilot">Vollständigen Scope</a></div><p class="micro">Keine garantierte Modellverbesserung. Produktionsdaten sind nicht automatisch enthalten.</p></div></div></section>
 
-    <section class="section" id="status">
-      <div class="shell">
-        <div class="section-label">Transparenter Status</div>
-        <h2>Was bereits steht — und was noch bewiesen werden muss.</h2>
-        <div class="status-grid">
-          <div class="status-card"><h3>Vorhanden / in Arbeit</h3><ul><li>Ausführlicher Businessplan und Finanzmodell</li><li>Feasibility-Sprint-Angebot</li><li>Priorisierte Zielkunden- und Partnerpipeline</li><li>Technical-Lead-Rollenprofil und Scorecard</li><li>Erste Robotics- und Ecosystem-Ansprache</li></ul></div>
-          <div class="status-card open"><h3>Noch nachzuweisen</h3><ul><li>Erster bezahlter Kundenauftrag</li><li>Technische Schlüsselperson im Vertrag oder belastbaren LOI</li><li>Demonstrator und Sample Data Card</li><li>Finale Eigenmittel- und Finanzierungsstruktur</li><li>Finales Rechts-, Datenschutz- und Security-Paket</li></ul></div>
-        </div>
-      </div>
-    </section>
+    <section class="section" id="status"><div class="shell"><div class="label">Transparenter Status</div><h2>Was steht — und was noch bewiesen werden muss.</h2><div class="status"><div class="status-card"><h3>Vorhanden / in Arbeit</h3><ul><li>Businessplan und formelbasiertes Finanzmodell</li><li>Feasibility-Sprint-Angebot</li><li>Zielkunden- und Partnerpipeline</li><li>Technical-Lead-Profil und Scorecard</li><li>Erste Robotik-, Integrator- und Forschungsansprache</li></ul></div><div class="status-card open"><h3>Noch nachzuweisen</h3><ul><li>Erster bezahlter Kundenauftrag</li><li>Technische Schlüsselperson im Vertrag oder LOI</li><li>Demonstrator und Sample Data Card</li><li>Finale Eigenmittel- und Finanzierungsstruktur</li><li>Finales Rechts-, Datenschutz- und Security-Paket</li></ul></div></div></div></section>
 
-    <section class="section" id="partner">
-      <div class="shell">
-        <div class="section-label">Kooperation</div>
-        <h2>Drei konkrete Wege zur Zusammenarbeit.</h2>
-        <div class="partner-grid">
-          <article class="card partner-card"><span class="tag">Designpartner</span><h3>Ein Task. Eine Datenlücke. Ein Benchmark.</h3><p>Für Robotikteams mit einer klaren realen Aufgabe, technischem Owner und messbarer Evaluation.</p><a href="mailto:aaronwiss62@gmail.com?subject=Design-Partner%20%E2%80%93%20Physical%20AI%20Data">Task beschreiben →</a></article>
-          <article class="card partner-card"><span class="tag">Integration</span><h3>Data Operations als Projektmodul.</h3><p>Für Integratoren und Industriepartner, die Varianten, Fehlerzustände und neue Werkstücke systematisch abdecken müssen.</p><a href="mailto:aaronwiss62@gmail.com?subject=Integrationspartner%20%E2%80%93%20Physical%20AI%20Data">Kooperationsfall senden →</a></article>
-          <article class="card partner-card"><span class="tag">Technical Lead</span><h3>Senior-Verantwortung statt Ideenrolle.</h3><p>Gesucht werden Computer Vision, 3D-Kalibrierung, ROS 2, Robot Learning, Teleoperation und Robotics Data Engineering.</p><a href="TECHNICAL_COLLABORATION.md">Rollenprofil öffnen →</a></article>
-        </div>
-      </div>
-    </section>
+    <section class="section"><div class="shell"><div class="label">Kooperation</div><h2>Drei konkrete Wege zur Zusammenarbeit.</h2><div class="partner-grid"><article class="card partner"><span class="tag">Designpartner</span><h3>Ein Task. Eine Datenlücke. Ein Benchmark.</h3><p>Für Robotikteams mit klarer realer Aufgabe, technischem Owner und messbarer Evaluation.</p><a href="mailto:aaronwiss62@gmail.com?subject=Design-Partner%20%E2%80%93%20Physical%20AI%20Data">Task beschreiben →</a></article><article class="card partner"><span class="tag">Integration</span><h3>Data Operations als Projektmodul.</h3><p>Für Integratoren und Industriepartner, die Varianten, Fehlerzustände und neue Werkstücke abdecken müssen.</p><a href="mailto:aaronwiss62@gmail.com?subject=Integrationspartner%20%E2%80%93%20Physical%20AI%20Data">Kooperationsfall senden →</a></article><article class="card partner"><span class="tag">Technical Lead</span><h3>Senior-Verantwortung statt Ideenrolle.</h3><p>Gesucht werden Computer Vision, 3D-Kalibrierung, ROS 2, Robot Learning und Robotics Data Engineering.</p><a href="documents.html#technical">Rollenprofil öffnen →</a></article></div></div></section>
 
-    <section class="section">
-      <div class="shell">
-        <div class="section-label">Grundsätze</div>
-        <div class="principles">
-          <div class="principle">Keine verdeckte oder dauerhafte Mitarbeiterüberwachung.</div>
-          <div class="principle">Freiwillige, zeitlich begrenzte Demonstrationssessions.</div>
-          <div class="principle">Keine Mitarbeiterbewertungen, Emotionsanalyse oder versteckte Zweitnutzung.</div>
-          <div class="principle">Projektbezogene Rechte, Datenminimierung und messbare Qualität.</div>
-        </div>
-      </div>
-    </section>
+    <section class="section"><div class="shell"><div class="label">Grundsätze</div><div class="principles"><div class="principle">Keine verdeckte oder dauerhafte Mitarbeiterüberwachung.</div><div class="principle">Freiwillige, zeitlich begrenzte Demonstrationssessions.</div><div class="principle">Keine Mitarbeiterbewertungen, Emotionsanalyse oder versteckte Zweitnutzung.</div><div class="principle">Projektbezogene Rechte, Datenminimierung und messbare Qualität.</div></div></div></section>
 
-    <section class="section">
-      <div class="shell cta-box">
-        <div><h2>Welche reale Datenlücke begrenzt Ihren Roboter?</h2><p>Ein sinnvolles Erstgespräch dauert 20 Minuten und klärt Task, vorhandenen Stack, fehlende Datenmodalität, Benchmark und den kleinstmöglichen validierbaren nächsten Schritt.</p></div>
-        <a class="btn-primary" href="mailto:aaronwiss62@gmail.com?subject=20-Minuten-Technical-Fit%20%E2%80%93%20Physical%20AI%20Data">Technical Fit anfragen</a>
-      </div>
-    </section>
+    <section class="section"><div class="shell cta"><div><h2>Welche reale Datenlücke begrenzt Ihren Roboter?</h2><p>Ein 20-minütiges Erstgespräch klärt Task, Stack, fehlende Modalität, Benchmark und den kleinstmöglichen validierbaren nächsten Schritt.</p></div><a class="btn primary" href="mailto:aaronwiss62@gmail.com?subject=20-Minuten-Technical-Fit%20%E2%80%93%20Physical%20AI%20Data">Technical Fit anfragen</a></div></section>
   </main>
-
-  <footer>
-    <div class="shell footer-inner">
-      <div><strong style="color:var(--text)">Aaron Wißmann</strong><br>Münster · Physical AI Data Germany — Arbeitstitel</div>
-      <div><a href="BUSINESS_PLAN_EXECUTIVE_SUMMARY.md">Business-Plan Summary</a> · <a href="CONTACT.md">Kontaktwege</a> · <a href="https://github.com/Aaron4815/Haallo">GitHub Data Room</a></div>
-    </div>
-    <div class="shell disclosure">Frühe Validierungsphase. Die Seite behauptet weder eine fertige Produktionsplattform noch gesicherte Finanzierung, einen gebundenen technischen Co-Founder oder nachgewiesene Modellverbesserung. Detaillierte Finanz- und Vertragsunterlagen werden qualifizierten Partnern nach einem Erstgespräch bereitgestellt.</div>
-  </footer>
+  <footer><div class="shell footer"><div><strong style="color:var(--text)">Aaron Wißmann</strong><br>Münster · Physical AI Data Germany — Arbeitstitel</div><div><a href="documents.html#businessplan">Business Plan</a> · <a href="documents.html#pilot">Pilot</a> · <a href="documents.html#contact">Kontakt</a></div></div><div class="shell disclosure">Frühe Validierungsphase. Keine Behauptung einer fertigen Produktionsplattform, gesicherter Finanzierung oder nachgewiesener Modellverbesserung. Detaillierte Finanz- und Vertragsunterlagen werden qualifizierten Partnern nach einem Erstgespräch bereitgestellt.</div></footer>
 </body>
 </html>
