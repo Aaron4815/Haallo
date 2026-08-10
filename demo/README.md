@@ -1,8 +1,13 @@
 # Technical Demonstrator v0.1
 
+[![Validate technical demonstrator](https://github.com/Aaron4815/Haallo/actions/workflows/demo-ci.yml/badge.svg)](https://github.com/Aaron4815/Haallo/actions/workflows/demo-ci.yml)
+
 ## Cable Routing and Connector Insertion
 
-This demonstrator is the first public technical proof for Physical AI Data Germany. It is intentionally small and does **not** claim production readiness or validated robot-performance uplift.
+This demonstrator is the first public technical proof for Physical AI Data Germany. It is intentionally small and does **not** claim production readiness, industrial synchronization or validated robot-performance uplift.
+
+Public presentation:  
+https://aaron4815.github.io/Haallo/demo.html
 
 ## Goal
 
@@ -15,7 +20,7 @@ Capture and document a human demonstration task in a form that a robotics team c
 5. verify the seated state,
 6. include defined failure and recovery cases.
 
-The output is not just video. Every episode receives synchronized timestamps, task phases, outcome labels, variation metadata, quality flags and provenance information.
+The output is not just video. Every episode receives timestamps, task phases, outcome labels, variation metadata, quality flags and provenance information.
 
 ## Demonstrator question
 
@@ -70,13 +75,12 @@ demo_dataset/
 │       ├── camera_1.mp4
 │       ├── camera_1_timestamps.jsonl
 │       ├── episode.json
-│       └── annotations.json
+│       ├── annotations.json
+│       └── validation_report.json
 └── quality_report.md
 ```
 
 ## Task phases
-
-The v0.1 taxonomy uses the following task phases:
 
 1. `approach_cable`
 2. `grasp_cable`
@@ -90,8 +94,6 @@ The v0.1 taxonomy uses the following task phases:
 10. `complete`
 
 ## Failure taxonomy
-
-Initial failure classes:
 
 - `missed_grasp`
 - `cable_outside_guide`
@@ -123,6 +125,9 @@ The demonstrator is considered complete only when all of the following exist:
 - [x] acceptance tests defined
 - [x] capture protocol drafted
 - [x] data-card template drafted
+- [x] software-timestamped recorder published
+- [x] automated validator published
+- [x] repository CI enabled
 - [ ] physical jig assembled
 - [ ] cameras selected and mounted
 - [ ] calibration executed
@@ -130,14 +135,33 @@ The demonstrator is considered complete only when all of the following exist:
 - [ ] quality report published
 - [ ] external robotics review completed
 
-## Documents
+## Technical files
 
+- [Quickstart](QUICKSTART.md)
 - [Capture protocol](CAPTURE_PROTOCOL.md)
 - [Episode schema](episode.schema.json)
+- [Example episode metadata](example_episode.json)
 - [Acceptance tests](ACCEPTANCE_TESTS.md)
 - [Data-card template](DATA_CARD_TEMPLATE.md)
 - [Software-timestamped multi-view recorder](record_multiview.py)
+- [Automated episode validator](validate_episode.py)
+- [Python dependencies](requirements.txt)
 
-## Important limitation
+## Collaboration intake
 
-The initial recorder uses software timestamps and ordinary cameras. It is suitable for validating the workflow and metadata structure, but it is not equivalent to hardware-synchronized industrial capture. Measured timing quality must be reported rather than assumed.
+- Design partners and technical collaborators can use the structured public forms:  
+  https://github.com/Aaron4815/Haallo/issues/new/choose
+- Confidential tasks should be sent privately rather than posted in a public issue.
+
+## Important limitations
+
+The initial recorder uses software timestamps and ordinary cameras. It is suitable for validating the workflow and metadata structure, but it is not equivalent to hardware-synchronized industrial capture.
+
+The current repository proves documentation, schema and software readiness only. It does not yet prove:
+
+- physical capture quality,
+- calibration performance,
+- participant-data governance in operation,
+- policy/model improvement,
+- cross-robot transfer,
+- industrial safety or production readiness.
