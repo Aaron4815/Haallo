@@ -1,0 +1,113 @@
+name: Technical collaboration / Robotics Data Lead
+description: Apply for a paid technical test or propose a concrete robotics-data collaboration.
+title: "Technical collaboration: [specialism / project]"
+labels: ["technical-collaboration"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This public form is for qualified technical collaborators. Do not publish personal addresses, identification documents, private credentials, client secrets, unpublished source code or confidential files. Links should point only to material you are allowed to share.
+
+  - type: input
+    id: name
+    attributes:
+      label: Name or professional identifier
+      placeholder: Dr. Example / GitHub handle
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Location and time zone
+      placeholder: Munich, Europe/Berlin
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: expertise
+    attributes:
+      label: Relevant expertise
+      options:
+        - label: Python / production computer vision
+        - label: Multi-view geometry and camera calibration
+        - label: RGB-D, pose estimation or 3D reconstruction
+        - label: ROS / ROS 2 and robot integration
+        - label: Imitation learning, VLA models or robot learning
+        - label: Teleoperation and action-state data
+        - label: Robotics data engineering and dataset formats
+        - label: Information security or privacy engineering
+        - label: Industrial automation deployment
+    validations:
+      required: true
+
+  - type: textarea
+    id: proof
+    attributes:
+      label: Proof of work
+      description: Link to a project, publication, repository, video or system you personally built. Explain your contribution.
+      placeholder: Public link plus a concise description of my responsibility and measurable result.
+    validations:
+      required: true
+
+  - type: textarea
+    id: architecture
+    attributes:
+      label: Technical approach to the v0.1 demonstrator
+      description: How would you capture, calibrate, validate and package a two-camera cable-routing demonstration?
+    validations:
+      required: true
+
+  - type: textarea
+    id: tradeoffs
+    attributes:
+      label: Main technical risks and trade-offs
+      placeholder: Software timestamp quality, occlusion, calibration drift, human-to-robot action mismatch, rights/provenance.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: relationship
+    attributes:
+      label: Collaboration type
+      options:
+        - Paid four-week technical test
+        - Freelance/project collaboration
+        - Potential technical co-founder after a test phase
+        - Research collaboration
+        - Technical mentor/adviser
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: availability
+    attributes:
+      label: Realistic weekly availability
+      placeholder: 15 hours per week from September 2026
+    validations:
+      required: true
+
+  - type: input
+    id: rate
+    attributes:
+      label: Expected test compensation or rate range
+      description: A range is sufficient. Equity is not offered solely for an initial conversation.
+      placeholder: EUR ... for the four-week test / EUR ... per hour
+
+  - type: textarea
+    id: first_week
+    attributes:
+      label: What would you deliver in the first seven days?
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have shared only information and links that I am authorized to make public.
+          required: true
+        - label: I understand that any paid work requires a separate agreement covering confidentiality, IP and data access.
+          required: true
