@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aaron4815.github.io/Haallo/sitemap.xml
