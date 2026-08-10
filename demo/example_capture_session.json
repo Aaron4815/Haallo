@@ -1,0 +1,51 @@
+{
+  "schema_version": "0.1.0",
+  "episode_id": "episode_ci_0001",
+  "task_id": "cable_route_connector_insert_v0_1",
+  "participant_id": "participant_ci_test",
+  "capture_block_id": "capture_block_ci",
+  "instruction_id": "base_instruction_v0_1",
+  "start_time_utc": "2026-08-10T16:00:00Z",
+  "end_time_utc": "2026-08-10T16:00:10Z",
+  "timestamp_clock": "monotonic_ns",
+  "synchronization": "software_timestamped_not_hardware_triggered",
+  "streams": [
+    {
+      "camera_id": "camera_0",
+      "source": "0",
+      "width": 1280,
+      "height": 720,
+      "nominal_fps": 30.0,
+      "frames_read": 300,
+      "frames_written": 300,
+      "queue_drops": 0,
+      "read_failures": 0,
+      "first_timestamp_ns": 1000000000,
+      "last_timestamp_ns": 10966666667
+    },
+    {
+      "camera_id": "camera_1",
+      "source": "1",
+      "width": 1280,
+      "height": 720,
+      "nominal_fps": 30.0,
+      "frames_read": 298,
+      "frames_written": 298,
+      "queue_drops": 0,
+      "read_failures": 0,
+      "first_timestamp_ns": 1015000000,
+      "last_timestamp_ns": 10948333334
+    }
+  ],
+  "recorder": {
+    "opencv_version": "test-fixture",
+    "python_version": "test-fixture",
+    "requested_width": 1280,
+    "requested_height": 720,
+    "requested_fps": 30.0
+  },
+  "known_limitations": [
+    "Synthetic CI fixture; no real video data.",
+    "Streams are software timestamped and not hardware triggered."
+  ]
+}
