@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/physical-ai-data/episode.schema.json",
+  "title": "Physical AI Demonstration Episode",
+  "description": "Metadata contract for a calibrated, rights-aware robotics demonstration episode.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dataset_id",
+    "episode_id",
+    "task",
+    "participant",
+    "capture",
+    "variants",
+    "outcome",
+    "phases",
+    "rights",
+    "quality",
+    "files"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "dataset_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{2,63}$"
+    },
+    "episode_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{5,63}$"
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_id", "name", "instruction", "protocol_version"],
+      "properties": {
+        "task_id": {"type": "string"},
+        "name": {"type": "string", "minLength": 3},
+        "instruction": {"type": "string", "minLength": 5},
+        "protocol_version": {"type": "string"}
+      }
+    },
+    "participant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pseudonymous_id", "skill_class"],
+      "properties": {
+        "pseudonymous_id": {
+          "type": "string",
+          "pattern": "^P-[A-Z0-9]{6,16}$"
+        },
+        "skill_class": {
+          "type": "string",
+          "enum": ["novice", "trained", "expert", "not_applicable"]
+        },
+        "dominant_hand": {
+          "type": "string",
+          "enum": ["left", "right", "ambidextrous", "not_recorded"]
+        }
+      }
+    },
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["session_id", "started_at", "ended_at", "timebase", "streams", "calibration_ref"],
+      "properties": {
+        "session_id": {"type": "string"},
+        "started_at": {"type": "string", "format": "date-time"},
+        "ended_at": {"type": "string", "format": "date-time"},
+        "timebase": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["unit", "origin"],
+          "properties": {
+            "unit": {"type": "string", "enum": ["nanoseconds", "microseconds", "milliseconds"]},
+            "origin": {"type": "string"}
+          }
+        },
+        "streams": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["stream_id", "modality", "role", "frequency_hz", "file_ref"],
+            "properties": {
+              "stream_id": {"type": "string"},
+              "modality": {
+                "type": "string",
+                "enum": ["rgb", "depth", "imu", "force_torque", "joint_state", "robot_action", "fixture_state", "other"]
+              },
+              "role": {"type": "string"},
+              "frequency_hz": {"type": "number", "exclusiveMinimum": 0},
+              "resolution": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["width", "height"],
+                "properties": {
+                  "width": {"type": "integer", "minimum": 1},
+                  "height": {"type": "integer", "minimum": 1}
+                }
+              },
+              "file_ref": {"type": "string"}
+            }
+          }
+        },
+        "calibration_ref": {"type": "string"},
+        "maximum_observed_sync_offset_ms": {"type": "number", "minimum": 0}
+      }
+    },
+    "variants": {
+      "type": "object",
+      "description": "Project-defined variant dimensions.",
+      "additionalProperties": {
+        "type": ["string", "number", "integer", "boolean", "null"]
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["class", "verified"],
+      "properties": {
+        "class": {
+          "type": "string",
+          "enum": ["success", "failure", "successful_recovery", "failed_recovery", "aborted"]
+        },
+        "verified": {"type": "boolean"},
+        "verification_method": {"type": "string"},
+        "failure_code": {"type": ["string", "null"]},
+        "recovery_strategy": {"type": ["string", "null"]}
+      }
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "start_time", "end_time"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": ["approach", "grasp", "route_1", "route_2", "align", "insert", "verify", "recover", "other"]
+          },
+          "start_time": {"type": "number", "minimum": 0},
+          "end_time": {"type": "number", "minimum": 0},
+          "attributes": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["event_type", "time"],
+        "properties": {
+          "event_type": {"type": "string"},
+          "time": {"type": "number", "minimum": 0},
+          "actor": {"type": ["string", "null"]},
+          "object": {"type": ["string", "null"]},
+          "attributes": {"type": "object", "additionalProperties": true}
+        }
+      }
+    },
+    "rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rights_class", "participant_notice_version", "permitted_uses", "retention_class", "export_class"],
+      "properties": {
+        "rights_class": {"type": "string"},
+        "participant_notice_version": {"type": "string"},
+        "permitted_uses": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["project_evaluation", "model_training", "internal_research", "customer_delivery", "reusable_library", "public_demo"]
+          }
+        },
+        "retention_class": {"type": "string"},
+        "export_class": {"type": "string"},
+        "face_present": {"type": "boolean"},
+        "audio_present": {"type": "boolean"},
+        "confidential_information_reviewed": {"type": "boolean"}
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "mandatory_stream_completeness", "calibration_valid", "rights_complete", "reviewer_id"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["accepted", "accepted_with_limitations", "rejected", "pending_review"]
+        },
+        "mandatory_stream_completeness": {"type": "number", "minimum": 0, "maximum": 1},
+        "calibration_valid": {"type": "boolean"},
+        "median_reprojection_error_px": {"type": ["number", "null"], "minimum": 0},
+        "rights_complete": {"type": "boolean"},
+        "reviewer_id": {"type": "string"},
+        "rejection_reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "known_limitations": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "media_type", "sha256", "size_bytes"],
+        "properties": {
+          "path": {"type": "string"},
+          "media_type": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+          "size_bytes": {"type": "integer", "minimum": 0}
+        }
+      }
+    }
+  }
+}
