@@ -1,6 +1,7 @@
 # Physical AI Data Germany
 
 [![Validate technical demonstrator](https://github.com/Aaron4815/Haallo/actions/workflows/demo-ci.yml/badge.svg)](https://github.com/Aaron4815/Haallo/actions/workflows/demo-ci.yml)
+[![Test demonstrator end to end](https://github.com/Aaron4815/Haallo/actions/workflows/demo-integration-ci.yml/badge.svg)](https://github.com/Aaron4815/Haallo/actions/workflows/demo-integration-ci.yml)
 
 **Public partner data room · Working title · Münster, Germany**
 
@@ -49,7 +50,8 @@ It includes:
 - [multi-view recorder](demo/record_multiview.py),
 - [automated episode validator](demo/validate_episode.py),
 - [quickstart guide](demo/QUICKSTART.md),
-- automated CI that compiles the code and validates the schema/example.
+- automated schema and code validation,
+- a green synthetic end-to-end integration test covering two-camera output, episode scaffolding and the full validator.
 
 ### Honest current boundary
 
@@ -156,7 +158,7 @@ Completed or in progress:
 - initial target-account pipeline and outreach,
 - technical-lead role and test scorecard,
 - public v0.1 technical demonstrator specification,
-- recorder, validator, schema, CI and structured intake forms.
+- recorder, validator, schema, structured intake forms and green automated CI.
 
 Still required:
 
