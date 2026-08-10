@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Public partner website
+    url: https://aaron4815.github.io/Haallo/
+    about: Read the current company thesis, pilot structure and disclosure before opening an issue.
+  - name: Document and collaboration hub
+    url: https://aaron4815.github.io/Haallo/documents.html
+    about: Review the partner brief, feasibility sprint and technical collaboration process.
+  - name: Private or confidential first contact
+    url: mailto:aaronwiss62@gmail.com?subject=Physical%20AI%20Data%20%E2%80%93%20Confidential%20First%20Contact
+    about: Use email instead of a public issue when the task or organization cannot be named publicly.
